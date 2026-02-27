@@ -16,7 +16,7 @@ body {
 .bubble {
     position: absolute;
     bottom: -100px;
-    background: white;
+    background: rgb(205, 40, 40);
     padding: 15px;
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
