@@ -2,15 +2,57 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>JPN - Alvaro Diaz </title>
+    <title>JPN - 46 45 52 4E 41 4E 44 41 20 54 45 20 41 4D 4F </title>
 </head>
 <body>
-    <div id="bubble-container"></div>
-    <div class="card">
-        <h1>JPN</h1>    
-        <p>Mira las burbujas que flotan con mensajes para ti</p>
+    <div id="noise-overlay"></div>
+    <div id="bass-circle"></div>
+    <div id="crack-effect"></div>
+
+    <div id="photo-rain-container"></div>
+
+    <header class="top-bar">
+        <div class="volume-wrapper">
+            <span class="vol-icon">🔊</span>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </header>
+
+    <div id="start-screen">
+        <div class="center-display">
+            <h1 class="title glitch" data-text="JPN">JPN</h1>
+            
+            <div class="croc-container">
+                <img src="img1.png" alt="Crocodile" id="hero-image">
+            </div>
+
+            <p id="main-subtitle">TODOS LOS CAMINOS LLEVAN A JAPÓN</p>
+            
+            <button id="btn-enter" class="cyber-btn">I MISS U </button>
+        </div>
     </div>
+
+    <div id="transition-screen">
+        <img src="fer.jpg" id="transition-photo" alt="Fer">
+    </div>
+
+    <div id="lyric-container"></div> 
+
+    <audio id="musica" src="cancion.mp3" crossOrigin="anonymous"></audio>
+
     <script src="script.js"></script>
+    <div class="dev-credits">
+        SYSTEM ARCHITECT: <span class="hacker-name">@emimezaa</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </body>
 </html>

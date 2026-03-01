@@ -1,29 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;900&display=swap');
+
+:root {
+    --primary: #ff003c;
+    --bg: #050505;
+}
+
 body {
+    background-color: var(--bg);
     margin: 0;
-    overflow: hidden; /* Evita el scroll */
-    background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    overflow: hidden; /* Importante para la lluvia */
 }
 
-.card {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+#noise-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
+    opacity: 0.08; pointer-events: none; z-index: 50;
+}
+
+/* --- PANTALLA DE INICIO --- */
+#start-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200;
+    background-color: var(--bg);
+    transition: opacity 1s ease;
+}
+
+.center-display {
     text-align: center;
-    z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
 }
 
-.bubble {
+.croc-container {
+    margin: 20px 0;
+    width: 250px;
+    height: auto;
+}
+
+#hero-image {
+    width: 100%;
+    filter: invert(1); 
+    opacity: 0.9;
+}
+
+#main-subtitle {
+    font-family: 'Syncopate', sans-serif;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    color: #aaa;
+}
+
+/* --- PANTALLA DE TRANSICIÓN (FER.JPG) --- */
+#transition-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 150;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+#transition-photo {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    box-shadow: 0 0 50px rgba(255, 0, 60, 0.3);
+}
+
+/* --- VISUALIZADOR (FONDO) --- */
+#bass-circle {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,0,60,0.4) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    opacity: 0; z-index: 1; pointer-events: none;
+    transition: transform 0.05s ease-out;
+}
+
+/* --- PANTALLA ROTA --- */
+#crack-effect {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: white; opacity: 0; pointer-events: none; z-index: 999;
+    mix-blend-mode: overlay;
+}
+.screen-break { animation: breakAnim 0.3s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards; }
+
+@keyframes breakAnim {
+    0% { opacity: 0; } 10% { opacity: 1; background: white; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    20% { opacity: 1; background: var(--primary); transform: translate(-10px, 10px); }
+    100% { opacity: 0; transform: scale(1.1); }
+}
+
+/* --- TÍTULO Y BOTÓN --- */
+.title {
+    font-family: 'Syncopate', sans-serif; font-size: clamp(3rem, 10vw, 6rem);
+    letter-spacing: 10px; margin: 0; position: relative; color: white;
+}
+.cyber-btn {
+    background: transparent; border: 1px solid white; color: white;
+    padding: 15px 40px; font-family: 'Syncopate', sans-serif; cursor: pointer;
+    letter-spacing: 4px; transition: 0.3s; font-size: 0.8rem;
+}
+.cyber-btn:hover { background: white; color: black; box-shadow: 0 0 20px white; }
+
+
+#lyric-container {
+    z-index: 100; 
+    position: relative;
+}
+.lyric-phrase {
+    position: absolute; width: 90%; left: 5%; text-align: center;
+    font-weight: 800; text-transform: uppercase;
+    font-size: clamp(1rem, 4vw, 2.5rem); line-height: 1.4; letter-spacing: 2px;
+    color: white; opacity: 0; filter: blur(15px); transform: scale(0.95);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 5;
+    text-shadow: 0 0 20px rgba(255,0,60,0.8); white-space: pre-wrap;
+}
+.lyric-phrase.active { opacity: 1; filter: blur(0); transform: scale(1); }
+
+
+.top-bar { position: fixed; top: 30px; right: 40px; z-index: 1000; }
+input[type=range] { accent-color: var(--primary); cursor: pointer; }
+
+
+#photo-rain-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; 
+    z-index: 20; 
+    overflow: hidden;
+}
+
+.falling-photo {
     position: absolute;
-    bottom: -100px;
-    background: rgb(205, 40, 40);
-    padding: 15px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    font-size: 14px;
-    animation: floatUp 8s linear infinite;
+    top: -150px; 
+    width: 120px; 
+    height: auto;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
+    filter: blur(2px) brightness(0.8); /* Desenfoque lento */
+    
+    animation: fallSlow linear forwards;
+    will-change: transform, opacity;
 }
 
-@keyframes floatUp {
-    to { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
+@keyframes fallSlow {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7; 
+        filter: blur(0px) brightness(1); 
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(calc(100vh + 150px)) rotate(var(--rotation));
+        opacity: 0; 
+    }
+}
+body {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    
+   
+    -webkit-touch-callout: none;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    
+    pointer-events: none; 
+}
+
+button, input[type="range"], .vol-icon {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.dev-credits {
+    position: fixed;
+    bottom: 15px;      
+    right: 20px;       
+    font-family: 'Courier New', monospace; 
+    font-size: 0.7rem; 
+    color: rgba(255, 255, 255, 0.4); 
+    z-index: 10000;    
+    pointer-events: none; 
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hacker-name {
+    color: #ff003c;    
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff003c; 
+    animation: textPulse 3s infinite alternate;
+}
+
+/* Animación suave de la firma */
+@keyframes textPulse {
+    0% { opacity: 0.7; text-shadow: 0 0 5px #ff003c; }
+    100% { opacity: 1; text-shadow: 0 0 15px #ff003c, 0 0 5px white; }
+}
+/* ==========================================
+   RESPONSIVE DESIGN (MÓVIL Y TABLET)
+   ========================================== */
+
+/* Reglas para pantallas menores a 768px (Tablets y Móviles) */
+@media (max-width: 768px) {
+
+    /* 1. Ajustar el Título JPN para que no se corte */
+    .title {
+        font-size: 15vw; /* Se escala con el ancho de la pantalla */
+        letter-spacing: 5px; /* Menos espacio entre letras */
+    }
+
+    /* 2. El Cocodrilo más pequeño */
+    .croc-container {
+        width: 180px; /* Tamaño fijo más controlado en móvil */
+        margin: 10px 0;
+    }
+
+    /* 3. Subtítulo más legible */
+    #main-subtitle {
+        font-size: 0.7rem;
+        padding: 0 20px; /* Margen a los lados para que no toque los bordes */
+    }
+
+    /* 4. Botón más fácil de tocar con el dedo */
+    .cyber-btn {
+        padding: 15px 30px;
+        width: 80%; /* Botón ancho para pulgares */
+        font-size: 0.9rem;
+    }
+
+    /* 5. Letras de la canción: Ajuste de tamaño */
+    .lyric-phrase {
+        font-size: clamp(1.2rem, 5vw, 2rem); /* Más pequeñas para que quepan frases largas */
+        width: 95%; /* Usar casi todo el ancho */
+        left: 2.5%;
+    }
+
+    /* 6. El Círculo del Bajo (Bass Circle) */
+    /* Lo hacemos más pequeño para que no cubra toda la pantalla del cel */
+    #bass-circle {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* 7. Créditos y Volumen */
+    .dev-credits {
+        font-size: 0.6rem;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .top-bar {
+        top: 20px;
+        right: 20px;
+    }
+    
+    /* Hacemos el slider de volumen un poco más grande para el dedo */
+    input[type=range] {
+        width: 100px; 
+        height: 10px;
+    }
+}
+
+/* Reglas para pantallas MUY pequeñas (Móviles antiguos o muy estrechos) */
+@media (max-width: 380px) {
+    .title { font-size: 12vw; }
+    .croc-container { width: 140px; }
 }
